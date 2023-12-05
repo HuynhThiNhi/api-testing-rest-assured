@@ -16,12 +16,12 @@ import static io.restassured.RestAssured.given;
 public class JiraProject implements RequestCapability {
     Map<String, List<Map<String, String>>> projectInfo;
     List<Map<String, String>> issueTypes;
-    RequestSpecification request = given();
 
     public static void main(String[] args) {
         JiraProject jiraProject = new JiraProject();
 
         System.out.println(jiraProject.getIssueTypeIdByName("Task"));
+        //jiraProject.getIssueTypes();
 
 
     }
@@ -40,6 +40,7 @@ public class JiraProject implements RequestCapability {
         Response response = request.baseUri(Config.JiraUri)
                 .header(defaultHeader)
 //               .header(RequestCapability.getAuthenticatedHeader(encodeCredentials()))
+                .header(acceptJsonHeader)
                 .header(getAuthenticatedHeader.apply(Utils.encodeCredentials()))
                 .get(Config.getProjectEndPoint);
 
@@ -48,7 +49,7 @@ public class JiraProject implements RequestCapability {
     }
 
     private List<Map<String, String>> getIssueTypes() {
-        System.out.println(projectInfo.get("issueTypes"));
+//        System.out.println(projectInfo.get("issueTypes"));
         return projectInfo.get("issueTypes");
     }
     public String getIssueTypeIdByName(String issueTypeName) {
